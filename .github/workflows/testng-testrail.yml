@@ -1,0 +1,43 @@
+name: TestNG → TestRail (Java)
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  test-and-report:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Java 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: maven
+
+      - name: Run TestNG tests
+        # if: always() ensures TestRail upload runs even when tests fail
+        if: always()
+        env:
+          TESTRAIL_ENABLED:    "true"
+          TESTRAIL_URL:        ${{ secrets.TESTRAIL_URL }}
+          TESTRAIL_USER:       ${{ secrets.TESTRAIL_USER }}
+          TESTRAIL_API_KEY:    ${{ secrets.TESTRAIL_API_KEY }}
+          TESTRAIL_PROJECT_ID: ${{ secrets.TESTRAIL_PROJECT_ID }}
+          TESTRAIL_SUITE_ID:   ${{ secrets.TESTRAIL_SUITE_ID }}
+          TESTRAIL_RUN_NAME:   "GitHub Actions Run - ${{ github.ref_name }} @ ${{ github.sha }}"
+        run: mvn test -B
+
+      - name: Upload Surefire reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: surefire-reports
+          path: target/surefire-reports/
