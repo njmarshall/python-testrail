@@ -29,7 +29,11 @@ jobs:
       - name: Run pytest tests
         if: always()
         env:
-          TESTRAIL_ENABLED:    "true"
+          # TESTRAIL_ENABLED is false in CI — no live license needed.
+          # The mock test suite (test_testrail_mock.py) validates all
+          # TestRailClient behaviour using unittest.mock instead.
+          # Set to "true" only when running against a real TestRail instance.
+          TESTRAIL_ENABLED:    "false"
           TESTRAIL_URL:        ${{ secrets.TESTRAIL_URL }}
           TESTRAIL_USER:       ${{ secrets.TESTRAIL_USER }}
           TESTRAIL_API_KEY:    ${{ secrets.TESTRAIL_API_KEY }}
