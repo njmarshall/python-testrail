@@ -1,5 +1,11 @@
 # python-testrail
 
+[![Pytest → TestRail CI](https://github.com/njmarshall/python-testrail/actions/workflows/pytest-testrail.yml/badge.svg)](https://github.com/njmarshall/python-testrail/actions/workflows/pytest-testrail.yml)
+![Python](https://img.shields.io/badge/Python-3.11-3776AB?logo=python&logoColor=white)
+![pytest](https://img.shields.io/badge/pytest-7.4-0A9EDC?logo=pytest&logoColor=white)
+![TestRail](https://img.shields.io/badge/TestRail-integrated-65C179)
+![License](https://img.shields.io/badge/License-MIT-lightgrey)
+
 **TestRail API Integration for Python/pytest**  
 _Author: NJ Marshall | Built after being laid off — solved in Python first, then ported to Java_
 
